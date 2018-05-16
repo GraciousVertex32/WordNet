@@ -1,7 +1,5 @@
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdIn;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,6 +50,10 @@ public class WordNet
     // is the word a WordNet noun?
     public boolean isNoun(String word)
     {
+        if (word == null)
+        {
+            throw new IllegalArgumentException();
+        }
         if (allnoun.contains(word))
         {
             return true;
@@ -61,6 +63,10 @@ public class WordNet
     // distance between nounA and nounB (defined below)
     public int distance(String nounA, String nounB)
     {
+        if (nounA == null || nounB == null)
+        {
+            throw new IllegalArgumentException();
+        }
         int aid = 0;
         int bid = 0;
         boolean geta = false;
@@ -91,8 +97,12 @@ public class WordNet
     // in a shortest ancestral path (defined below)
     public String sap(String nounA, String nounB)
     {
-        int aid = 0;
-        int bid = 0;
+        if (nounA == null || nounB == null)
+        {
+            throw new IllegalArgumentException();
+        }
+        Iterable<Integer> aid = new ArrayList<>();
+        Iterable<Integer> bid = new ArrayList<>();
         boolean geta = false;
         boolean getb = false;
         for (Synset synset : list)
@@ -101,18 +111,14 @@ public class WordNet
             {
                 if (noun.compareTo(nounA) == 0)
                 {
-                    aid = synset.getId();
+                    ((ArrayList<Integer>) aid).add(synset.getId());
                     geta = true;
                 }
                 if (noun.compareTo(nounB) == 0)
                 {
-                    bid = synset.getId();
+                    ((ArrayList<Integer>) bid).add(synset.getId());
                     getb = true;
                 }
-            }
-            if (geta && getb)
-            {
-                break;
             }
         }
         if (!geta || !getb)
